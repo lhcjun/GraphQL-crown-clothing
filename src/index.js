@@ -10,10 +10,10 @@ import { ApolloClient } from "apollo-boost";
 import { persistCache } from "apollo-cache-persist";
 
 import { store, persistor } from "./redux/store";
-
-import "./index.css";
+import { default as data } from './graphql/initial-data';
 import App from "./App";
 import { resolvers, typeDefs } from "./graphql/resolver";
+import "./index.css";
 
 // connect backend
 const httpLink = createHttpLink({
@@ -36,13 +36,7 @@ const client = new ApolloClient({
 });
 
 // write data into client when initializing app
-client.writeData({
-  data: {
-    cartHidden: true,
-    cartItems: [],
-    itemCount: 0,
-  },
-});
+client.writeData({ data });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
