@@ -11,7 +11,7 @@ import { persistCache } from "apollo-cache-persist";
 
 import { store, persistor } from "./redux/store";
 import { default as data } from './graphql/initial-data';
-import App from "./App";
+import { default as App } from './containers/App.container';
 import { resolvers, typeDefs } from "./graphql/resolver";
 import "./index.css";
 

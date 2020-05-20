@@ -1,29 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
-
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './header.styles.scss';
 
-// read initial value from cache
-const GET_CART_HIDDEN = gql`
-    {
-        cartHidden @client  #client directive = ask for local cache
-    }
-`;
+// read initial value from cache 
+const GET_CLIENT_PROPERTY = gql`{ 
+  cartHidden @client        #client directive = ask for local cache
+  currentUser @client 
+}`;
 
-const Header = ({ currentUser }) => {
-  const { data } = useQuery(GET_CART_HIDDEN);
-  const { cartHidden } = data;
-
+const Header = () => {  
+  const { data } = useQuery(GET_CLIENT_PROPERTY);
+  const { cartHidden, currentUser } = data;
+  
   return(
     <div className='header'>
       <Link className='logo-container' to='/'>
@@ -52,8 +47,4 @@ const Header = ({ currentUser }) => {
   )
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;
